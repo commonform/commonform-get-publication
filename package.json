@@ -10,6 +10,9 @@
     "defence-cli": "^1.0.5",
     "replace-require-self": "^1.1.1"
   },
+  "files": [
+    "index.js"
+  ],
   "license": "Apache-2.0",
   "repository": "commonform/commonform-get-project",
   "scripts": {
