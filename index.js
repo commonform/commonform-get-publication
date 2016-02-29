@@ -26,15 +26,21 @@ function getProject(publisher, project, edition, callback) {
           '/projects/' + project +
           '/editions/' + edition ) },
     function(response) {
-      var buffers = [ ]
-      response
-        .on('data', function(buffer) {
-          buffers.push(buffer) })
-        .on('end', function() {
-          var responseBody = Buffer.concat(buffers).toString()
-          parse(responseBody, function(error, project) {
-            if (error) {
-              callback(error) }
-            else {
-              callback(null, project) } }) }) })
+      var status = response.statusCode
+      if (status !== 200) {
+        var error = new Error()
+        error.statusCode = status
+        callback(error) }
+      else {
+        var buffers = [ ]
+        response
+          .on('data', function(buffer) {
+            buffers.push(buffer) })
+          .on('end', function() {
+            var responseBody = Buffer.concat(buffers).toString()
+            parse(responseBody, function(error, project) {
+              if (error) {
+                callback(error) }
+              else {
+                callback(null, project) } }) }) } })
     .end() }
