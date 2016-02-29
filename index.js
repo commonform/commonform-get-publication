@@ -27,7 +27,9 @@ function getProject(publisher, project, edition, callback) {
           '/editions/' + edition ) },
     function(response) {
       var status = response.statusCode
-      if (status !== 200) {
+      if (status === 404) {
+        callback(null, false) }
+      else if (status !== 200) {
         var error = new Error()
         error.statusCode = status
         callback(error) }
