@@ -20,7 +20,7 @@ var parse = require('json-parse-errback')
 
 function getProject(publisher, project, edition, callback) {
   https.request(
-    { host: 'projects.commonform.org',
+    { host: 'api.commonform.org',
       path:
         ( '/publishers/' + publisher +
           '/projects/' + project +
