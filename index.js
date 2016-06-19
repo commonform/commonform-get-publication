@@ -13,18 +13,18 @@
  * limitations under the License.
  */
 
-module.exports = getProject
+module.exports = getPublication
 
 var https = require('https')
 var parse = require('json-parse-errback')
 
-function getProject(publisher, project, edition, callback) {
+function getPublication(publisher, project, edition, callback) {
   https.request(
     { host: 'api.commonform.org',
       path:
         ( '/publishers/' + publisher +
           '/projects/' + project +
-          '/editions/' + edition ) },
+          '/publications/' + edition ) },
     function(response) {
       var status = response.statusCode
       if (status === 404) {
@@ -40,9 +40,9 @@ function getProject(publisher, project, edition, callback) {
             buffers.push(buffer) })
           .on('end', function() {
             var responseBody = Buffer.concat(buffers).toString()
-            parse(responseBody, function(error, project) {
+            parse(responseBody, function(error, publication) {
               if (error) {
                 callback(error) }
               else {
-                callback(null, project) } }) }) } })
+                callback(null, publication) } }) }) } })
     .end() }
