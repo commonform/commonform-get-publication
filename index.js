@@ -15,6 +15,7 @@
 
 module.exports = getPublication
 
+var concat = require('simple-concat')
 var https = require('https')
 var once = require('once')
 var parse = require('json-parse-errback')
@@ -36,26 +37,14 @@ function getPublication (repository, publisher, project, edition, callback) {
     } else if (status !== 200) {
       var error = new Error()
       error.statusCode = status
-      callback(error)
-    } else {
-      var buffers = []
-      response
-      .on('data', function (buffer) {
-        buffers.push(buffer)
-      })
-      .on('end', function () {
-        var responseBody = Buffer.concat(buffers).toString()
-        parse(responseBody, function (error, publication) {
-          if (error) {
-            callback(error)
-          } else {
-            callback(null, publication)
-          }
-        })
-      })
+      return callback(error)
     }
+    concat(response, function (error, buffer) {
+      if (error) return callback(error)
+      parse(buffer, callback)
+    })
   })
-  .once('timeout', callback)
-  .once('error', callback)
-  .end()
+    .once('timeout', callback)
+    .once('error', callback)
+    .end()
 }
