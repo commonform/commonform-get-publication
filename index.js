@@ -25,9 +25,9 @@ function getPublication (repository, publisher, project, edition, callback) {
   https.request({
     host: repository,
     path: (
-      '/publishers/' + publisher +
-      '/projects/' + project +
-      '/publications/' + edition
+      '/publishers/' + encodeURIComponent(publisher) +
+      '/projects/' + encodeURIComponent(project) +
+      '/publications/' + encodeURIComponent(edition)
     )
   })
     .once('timeout', callback)
