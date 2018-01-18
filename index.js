@@ -18,9 +18,9 @@ module.exports = getPublication
 var https = require('https')
 var parse = require('json-parse-errback')
 
-function getPublication (publisher, project, edition, callback) {
+function getPublication (repository, publisher, project, edition, callback) {
   https.request({
-    host: 'api.commonform.org',
+    host: repository,
     path: (
       '/publishers/' + publisher +
       '/projects/' + project +

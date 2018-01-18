@@ -4,7 +4,7 @@ var assert = require('assert')
 var responded = 0
 
 getPublication(
-  'ironsides', 'stock-power', '1e4d',
+  'api.commonform.org', 'ironsides', 'stock-power', '1e4d',
   function (error, publication) {
     assert.equal(publication.publisher, 'ironsides')
     assert.equal(publication.project, 'stock-power')
@@ -21,7 +21,7 @@ getPublication(
 )
 
 getPublication(
-  'ironsides', 'nonexistent', '30e',
+  'api.commonform.org', 'ironsides', 'nonexistent', '30e',
   function (error, publication) {
     assert.equal(publication, false)
     responded++
