@@ -16,9 +16,11 @@
 module.exports = getPublication
 
 var https = require('https')
+var once = require('once')
 var parse = require('json-parse-errback')
 
 function getPublication (repository, publisher, project, edition, callback) {
+  callback = once(callback)
   https.request({
     host: repository,
     path: (
@@ -53,5 +55,7 @@ function getPublication (repository, publisher, project, edition, callback) {
       })
     }
   })
+  .once('timeout', callback)
+  .once('error', callback)
   .end()
 }
