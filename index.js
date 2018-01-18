@@ -29,22 +29,22 @@ function getPublication (repository, publisher, project, edition, callback) {
       '/projects/' + project +
       '/publications/' + edition
     )
-  },
-  function (response) {
-    var status = response.statusCode
-    if (status === 404) {
-      callback(null, false)
-    } else if (status !== 200) {
-      var error = new Error()
-      error.statusCode = status
-      return callback(error)
-    }
-    concat(response, function (error, buffer) {
-      if (error) return callback(error)
-      parse(buffer, callback)
-    })
   })
     .once('timeout', callback)
     .once('error', callback)
+    .once('response', function (response) {
+      var status = response.statusCode
+      if (status === 404) {
+        callback(null, false)
+      } else if (status !== 200) {
+        var error = new Error()
+        error.statusCode = status
+        return callback(error)
+      }
+      concat(response, function (error, buffer) {
+        if (error) return callback(error)
+        parse(buffer, callback)
+      })
+    })
     .end()
 }
